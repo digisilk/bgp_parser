@@ -42,7 +42,7 @@ class BgpDump:
                     self.bgp_attr(attr)
                 self.save_neighbour_as(as_container)
 
-
+    # Save entry information
     def bgp_attr(self, attr):
         if attr['type'][0] == BGP_ATTR_T['AS_PATH']:
             self.as_path = []

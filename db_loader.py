@@ -10,6 +10,7 @@ class HTMLFilter(HTMLParser):
 
 html_filter = HTMLFilter()
 
+# Download content from the resource
 url = "https://www.cidr-report.org/as2.0/autnums.html"
 r = requests.get(url, allow_redirects = True)
 html_filter.feed(r.content.decode("utf-8"))
@@ -17,6 +18,7 @@ html_filter.feed(r.content.decode("utf-8"))
 db = DBConnection()
 db.create_table()
 
+# Populate the database
 lst = html_filter.text.splitlines( )
 for i in range(14,len(lst)-8):
     line = lst[i]
@@ -24,3 +26,5 @@ for i in range(14,len(lst)-8):
     db.insert(asn, org_info, country_code)
 
 db.commit()
+
+db.close()
