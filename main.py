@@ -52,7 +52,7 @@ def main():
         map(lambda as_info: (as_info.asn, as_info.org_info, as_info.country_code), neighbour_as.values()), 
         columns = ['ASN', 'Organization', 'Country']
     )
-    df.to_excel(r'../neighbour_as.xlsx', index = False, header = True)
+    df.to_excel(r'neighbour_as.xlsx', index = False, header = True)
 
 
 if __name__ == '__main__':
