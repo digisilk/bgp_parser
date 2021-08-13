@@ -14,12 +14,14 @@ class ASContainer:
     def get_neighbour_as(self):
         neighbour_as = { _as for value in self.as_dict.values() for _as in value }
         return neighbour_as
+    
 
 class ASInfo:
-    def __init__(self, asn = 0, org_info = '', country_code = ''):
+    def __init__(self, asn = 0, org_info = '', country_code = '', peer_asn_list = []):
         self.asn = asn                         # ASN
         self.org_info = org_info               # Organization Information
         self.country_code = country_code       # Country Code, e.g. US - United States
+        self.peer_asn_list = peer_asn_list
         
 
 def main():
@@ -47,12 +49,25 @@ def main():
         neighbour_as[asn].country_code = _as[2]
     db.close()
 
+
+    writer = pd.ExcelWriter('neighbour_as.xlsx')
     # Load neighbour AS values to a dataframe
     df = pd.DataFrame(
         map(lambda as_info: (as_info.asn, as_info.org_info, as_info.country_code), neighbour_as.values()), 
         columns = ['ASN', 'Organization', 'Country']
     )
-    df.to_excel(r'neighbour_as.xlsx', index = False, header = True)
+
+    df2 = pd.DataFrame(
+        { (kz_asn, asn) for kz_asn, value in as_container.as_dict.items() for asn in value },
+        columns = ['KZ ASN', 'ASN']
+    )
+    df2.head()
+
+    df.to_excel(writer, index = False, header = True, sheet_name = 'Country')
+    df2.to_excel(writer, index = False, header = True, sheet_name = 'ASN Map')
+    
+    writer.save()
+    
 
 
 if __name__ == '__main__':
