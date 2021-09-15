@@ -18,7 +18,8 @@ class BgpDump:
             curr_as = as_path_list[i]
             # Check if current AS is in the country
             if curr_as in as_container.country_as_list:
-
+                if curr_as not in as_container.as_dict:
+                    as_container.as_dict[curr_as] = set()
                 # Check if neighbouring ASes are not in the country
                 if i > 1:
                     prev_as = as_path_list[i-1]

@@ -45,10 +45,14 @@ def main():
     neighbour_as = { asn : ASInfo(asn = asn) for asn in as_container.get_neighbour_as() }
     for asn in neighbour_as.keys():
         _as = db.find_one('asn', asn)
-        neighbour_as[asn].org_info = _as[1]
-        neighbour_as[asn].country_code = _as[2]
+        if _as is None:
+            print(asn)
+            neighbour_as[asn].org_info = "Bogon"
+            neighbour_as[asn].country_code = "ZZ"
+        else:
+            neighbour_as[asn].org_info = _as[1]
+            neighbour_as[asn].country_code = _as[2]
     db.close()
-
 
     writer = pd.ExcelWriter('neighbour_as.xlsx')
     # Load neighbour AS values to a dataframe
@@ -57,6 +61,7 @@ def main():
         columns = ['ASN', 'Organization', 'Country']
     )
 
+    # Add country code
     df2 = pd.DataFrame(
         { (kz_asn, asn) for kz_asn, value in as_container.as_dict.items() for asn in value },
         columns = ['KZ ASN', 'ASN']
@@ -68,7 +73,6 @@ def main():
     
     writer.save()
     
-
 
 if __name__ == '__main__':
     main()
