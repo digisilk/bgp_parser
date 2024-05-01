@@ -1,6 +1,6 @@
 # BGP Parser
 ## Background
-This project was created for the purpose of finding closest neighbour Autonomous Systems for each country. The code parses through RIPE daily datasets and produces an excel file. The file contains information about neighbour ASes for a particular country, such as AS Number, owning organization and country of location.
+This parsing tool was developed as part of an effort to map logical network connectivity across the DIGISILK country sites. Its purpose is to understand how Internet Service Providers (or rather, Autonomous Systems) interconnect at the Internet Protocol level, utilizing datasets derived from routing announcements over the Border Gateway Protocol (BGP). The tool parses RIPE (Réseaux IP Européens) daily datasets and generates an Excel file containing information about neighbour ASes within a given country, including AS Number, owning organization, and country of location.
 
 ## Setup
 1. To run the code, you need to install Python and PIP
